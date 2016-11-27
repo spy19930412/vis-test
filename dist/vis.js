@@ -29518,7 +29518,8 @@ return /******/ (function(modules) { // webpackBootstrap
           x: 5,
           y: 5
         },
-        shape: 'ellipse',
+        // 默认shape是ellipse
+        shape: 'image',
         shapeProperties: {
           borderDashes: false, // only for borders
           borderRadius: 6, // only for box shape

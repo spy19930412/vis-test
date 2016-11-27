@@ -69,7 +69,8 @@
             try {
                 nodes.add({
                     id: document.getElementById('node-id').value,
-                    label: document.getElementById('node-label').value
+                    label: document.getElementById('node-label').value,
+                    image: document.getElementById('node-image').value
                 });
             }
             catch (err) {
@@ -81,7 +82,8 @@
             try {
                 nodes.update({
                     id: document.getElementById('node-id').value,
-                    label: document.getElementById('node-label').value
+                    label: document.getElementById('node-label').value,
+                    image: document.getElementById('node-image').value
                 });
             }
             catch (err) {
@@ -133,9 +135,9 @@
         function draw() {
             // create an array with nodes
             nodes = new vis.DataSet();
-            nodes.on('*', function () {
-                document.getElementById('nodes').innerHTML = JSON.stringify(nodes.get(), null, 4);
-            });
+            // nodes.on('*', function () {
+            //     document.getElementById('nodes').innerHTML = JSON.stringify(nodes.get(), null, 4);
+            // });
             nodes.add([
                 {id: '1', label: '物理机1', color:'#97C2FC', image: DIR + 'Network-Pipe-icon.png', shape: 'image'},
                 {id: '2', label: '交换机1', color:'#FFFF00', image: DIR + 'Hardware-My-Computer-3-icon.png', shape: 'image'},
@@ -146,9 +148,9 @@
 
             // create an array with edges
             edges = new vis.DataSet();
-            edges.on('*', function () {
-                document.getElementById('edges').innerHTML = JSON.stringify(edges.get(), null, 4);
-            });
+            // edges.on('*', function () {
+            //     document.getElementById('edges').innerHTML = JSON.stringify(edges.get(), null, 4);
+            // });
             edges.add([
                 {id: '1', from: '1', to: '2'},
                 {id: '2', from: '1', to: '3'},
@@ -240,96 +242,149 @@
 
 <body onload="draw();">
 
+    <h1>请在下面的数据框内填写基本数据</h1>
+    <table>
+        <tr>
+            <td>
+                <h2>Node</h2>
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <label for="node-id">Id</label>
+                        </td>
+                        <td>
+                            <input id="node-id" type="text" value="6"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <label for="node-label">Label</label>
+                        </td>
+                        <td>
+                            <input id="node-label" type="text" value="Node 6"></td>
+                    </tr>
+                    <tr>
 
-<h1>请在下面的数据框内填写基本数据</h1>
-<table>
-    <tr>
-        <td>
-            <h2>Node</h2>
-            <table>
-                <tr>
-                    <td></td>
-                    <td><label for="node-id">Id</label></td>
-                    <td><input id="node-id" type="text" value="6"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><label for="node-label">Label</label></td>
-                    <td><input id="node-label" type="text" value="Node 6"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>Action</td>
-                    <td>
-                        <button id="node-add" onclick="addNode();">Add</button>
-                        <button id="node-update" onclick="updateNode();">Update</button>
-                        <button id="node-remove" onclick="removeNode();">Remove</button>
-                    </td>
-                </tr>
-            </table>
-        </td>
-        <td>
-            <h2>Edge</h2>
-            <table>
-                <tr>
-                    <td></td>
-                    <td><label for="edge-id">Id</label></td>
-                    <td><input id="edge-id" type="text" value="5"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><label for="edge-from">From</label></td>
-                    <td><input id="edge-from" type="text" value="3"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><label for="edge-to">To</label></td>
-                    <td><input id="edge-to" type="text" value="4"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>Action</td>
-                    <td>
-                        <button id="edge-add" onclick="addEdge();">Add</button>
-                        <button id="edge-update" onclick="updateEdge();">Update</button>
-                        <button id="edge-remove" onclick="removeEdge();">Remove</button>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
+                        <td></td>
+                        <td>
+                            <label for="node-category">Category</label>
+                        </td>
+                        <td>
+                            <select id="node-category">
+                                <option value = "1">物理机</option>
+                                <option value = "2">交换机</option>
+                                <option value = "3">数据中心</option>
+                                <option value = "4">虚拟机</option>
+                            </select>
+                        </td>
+                    </tr>
 
-</table>
+                    <!-- 下拉列表控制隐藏区域从而设定节点图片 -->
+                    <tr>
+                        <td></td>
+                        <td>
+                            <label for="node-image">image</label>
+                        </td>
+                        <td>
+                            <input id="node-image" type="text" value=""></td>
+                    </tr>
 
-<h1>可视化数据显示</h1>
-<table class="view">
-    <colgroup>
-        <col width="40%">
-        <col width="20%">
-        <col width="20%">  
-        <col width="20%">         
-    </colgroup>
+                    <tr>
+                        <td></td>
+                        <td>Action</td>
+                        <td>
+                            <button id="node-add" onclick="addNode();">添加节点</button>
+                            <button id="node-update" onclick="updateNode();">更新节点</button>
+                            <button id="node-remove" onclick="removeNode();">删除节点</button>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <h2>Edge</h2>
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <label for="edge-id">Id</label>
+                        </td>
+                        <td>
+                            <input id="edge-id" type="text" value="5"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <label for="edge-from">From</label>
+                        </td>
+                        <td>
+                            <input id="edge-from" type="text" value="3"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <label for="edge-to">To</label>
+                        </td>
+                        <td>
+                            <input id="edge-to" type="text" value="4"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Action</td>
+                        <td>
+                            <button id="edge-add" onclick="addEdge();">Add</button>
+                            <button id="edge-update" onclick="updateEdge();">Update</button>
+                            <button id="edge-remove" onclick="removeEdge();">Remove</button>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+    </table>
+
+    <h1>可视化数据显示</h1>
+    <table class="view">
+        <colgroup>
+        <col width="70%">
+        <col width="30%"></colgroup>
     <tr>
         <td>
             <h2>拓扑图展示</h2>
             <div id="network"></div>
         </td>
         <td>
-            <h2>Nodes参数列表</h2>
-            <pre id="nodes"></pre>
-        </td>
-
-        <td>
-            <h2>Edges参数列表</h2>
-            <pre id="edges"></pre>
-        </td>
-        <td>
             <h2>节点携带参数</h2>
             <pre id="eventSpan"></pre>
         </td>
-
-        
     </tr>
 </table>
+<!-- 通过选择下拉列表的值定义节点类型 -->
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    var selector = $("#node-category");
+    var imageValue = $("#node-image").val();
+    var DIR = '../img/refresh-cl/';
+    selector.change(function(){
+       if(this.value == '1'){
+            imageValue = DIR + 'Network-Pipe-icon.png';
+            //imageValue = '../img/refresh-cl/Hardware-My-Computer-3-icon.png';
+            $("#node-image").val(imageValue);
+        }else if(this.value == '2'){
+            imageValue = DIR + 'Hardware-My-Computer-3-icon.png';
+            $("#node-image").val(imageValue);
+        }else if(this.value == '3'){
+            imageValue = DIR + 'Hardware-Printer-Blue-icon.png';
+            $("#node-image").val(imageValue);
+        }else{
+            imageValue = DIR + 'Hardware-My-PDA-02-icon.png';
+            $("#node-image").val(imageValue);
+        } 
+    })
+
+});    
+</script>
+
 </body>
 </html>
